@@ -10,14 +10,16 @@ const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
   return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
 };
 
-const getRemainingStock = (carts: CartItem[], product: Product) => {
-  const cartItem = getCartItem(carts, product);
+const getRemainingStock = (cart: CartItem[], product: Product) => {
+  const cartItem = getCartItem(cart, product);
   return product.stock - (cartItem?.quantity || 0);
 };
 
-const getCartItem = (carts: CartItem[], product: Product) => {
-  return carts.find((item) => item.product.id === product.id);
+const getCartItem = (cart: CartItem[], product: Product) => {
+  return cart.find((item) => item.product.id === product.id);
 };
+
+const isOutOfStock = (remainingStock: number) => remainingStock <= 0;
 
 const getAppliedDiscount = (item: CartItem) => {
   const { discounts } = item.product;
@@ -41,6 +43,13 @@ export const CartPage = ({ products, coupons }: Props) => {
     calculateTotal,
     selectedCoupon,
   } = useCart();
+
+  function handleAddToCart(cart: CartItem[], product: Product) {
+    const remainingStock = getRemainingStock(cart, product);
+    if (isOutOfStock(remainingStock)) return;
+
+    addToCart(product);
+  }
 
   const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } =
     calculateTotal();
@@ -93,7 +102,7 @@ export const CartPage = ({ products, coupons }: Props) => {
                     </ul>
                   )}
                   <button
-                    onClick={() => addToCart(product)}
+                    onClick={() => handleAddToCart(cart, product)}
                     className={`w-full px-3 py-1 rounded ${
                       remainingStock > 0
                         ? "bg-blue-500 text-white hover:bg-blue-600"
