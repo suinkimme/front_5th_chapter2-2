@@ -17,18 +17,19 @@ export const CartPage = ({ products, coupons }: Props) => {
     selectedCoupon,
   } = useCart();
 
+  // C
   const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
     return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
   };
 
+  // A
+  // 암묵적 입력: cart
   const getRemainingStock = (product: Product) => {
     const cartItem = cart.find((item) => item.product.id === product.id);
     return product.stock - (cartItem?.quantity || 0);
   };
 
-  const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } =
-    calculateTotal();
-
+  // C
   const getAppliedDiscount = (item: CartItem) => {
     const { discounts } = item.product;
     const { quantity } = item;
@@ -40,6 +41,9 @@ export const CartPage = ({ products, coupons }: Props) => {
     }
     return appliedDiscount;
   };
+
+  const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } =
+    calculateTotal();
 
   return (
     <div className="container mx-auto p-4">
