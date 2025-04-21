@@ -1,26 +1,11 @@
 // useCart.ts
 import { useState } from "react";
 import { CartItem, Coupon, Product } from "../../types";
-import { calculateCartTotal, updateCartItemQuantity } from "../models/cart";
-
-const findCartItemByProductId = (prevCart: CartItem[], productId: string) =>
-  prevCart.find((item) => item.product.id === productId);
-
-const increaseCartItemQuantity = (prevCart: CartItem[], product: Product) => {
-  return prevCart.map((item) =>
-    item.product.id === product.id
-      ? { ...item, quantity: Math.min(item.quantity + 1, product.stock) }
-      : item
-  );
-};
-
-const addOrUpdateCartItem = (prevCart: CartItem[], product: Product) => {
-  const existingItem = findCartItemByProductId(prevCart, product.id);
-  if (existingItem) {
-    return increaseCartItemQuantity(prevCart, product);
-  }
-  return [...prevCart, { product, quantity: 1 }];
-};
+import {
+  addOrUpdateCartItem,
+  updateCartItemQuantity,
+  calculateCartTotal,
+} from "../models/cart";
 
 const filteredCartItemByProductId = (prevCart: CartItem[], productId: string) =>
   prevCart.filter((item) => item.product.id !== productId);

@@ -1,4 +1,4 @@
-import { CartItem, Coupon } from "../../types";
+import { CartItem, Coupon, Product } from "../../types";
 
 export const calculateItemTotal = (item: CartItem) => {
   return 0;
@@ -17,6 +17,30 @@ export const calculateCartTotal = (
     totalAfterDiscount: 0,
     totalDiscount: 0,
   };
+};
+
+export const findCartItemByProductId = (
+  prevCart: CartItem[],
+  productId: string
+) => prevCart.find((item) => item.product.id === productId);
+
+export const increaseCartItemQuantity = (
+  prevCart: CartItem[],
+  product: Product
+) => {
+  return prevCart.map((item) =>
+    item.product.id === product.id
+      ? { ...item, quantity: Math.min(item.quantity + 1, product.stock) }
+      : item
+  );
+};
+
+export const addOrUpdateCartItem = (prevCart: CartItem[], product: Product) => {
+  const existingItem = findCartItemByProductId(prevCart, product.id);
+  if (existingItem) {
+    return increaseCartItemQuantity(prevCart, product);
+  }
+  return [...prevCart, { product, quantity: 1 }];
 };
 
 export const updateCartItemQuantity = (
