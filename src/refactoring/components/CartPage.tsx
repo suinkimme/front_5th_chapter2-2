@@ -10,13 +10,13 @@ const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
   return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
 };
 
-const getRemainingStock = (cart: CartItem[], product: Product) => {
-  const cartItem = getCartItem(cart, product);
+const getRemainingStock = (carts: CartItem[], product: Product) => {
+  const cartItem = getCartItem(carts, product);
   return product.stock - (cartItem?.quantity || 0);
 };
 
-const getCartItem = (cart: CartItem[], product: Product) => {
-  return cart.find((item) => item.product.id === product.id);
+const getCartItem = (carts: CartItem[], product: Product) => {
+  return carts.find((item) => item.product.id === product.id);
 };
 
 const getAppliedDiscount = (item: CartItem) => {
