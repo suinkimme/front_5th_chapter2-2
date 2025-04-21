@@ -34,7 +34,9 @@ export const useCart = () => {
 
   const updateQuantity = (productId: string, newQuantity: number) => {};
 
-  const applyCoupon = (coupon: Coupon) => {};
+  const applyCoupon = (coupon: Coupon) => {
+    setSelectedCoupon(coupon);
+  };
 
   const calculateTotal = () => ({
     totalBeforeDiscount: 0,
