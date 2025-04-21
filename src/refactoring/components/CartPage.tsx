@@ -24,9 +24,15 @@ export const CartPage = ({ products, coupons }: Props) => {
 
   // A
   // 암묵적 입력: cart
+  // 여전히 A
   const getRemainingStock = (product: Product) => {
-    const cartItem = cart.find((item) => item.product.id === product.id);
+    const cartItem = getCartItem(cart, product);
     return product.stock - (cartItem?.quantity || 0);
+  };
+
+  // C
+  const getCartItem = (cart: CartItem[], product: Product) => {
+    return cart.find((item) => item.product.id === product.id);
   };
 
   // C
