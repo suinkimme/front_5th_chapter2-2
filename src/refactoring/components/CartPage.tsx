@@ -6,23 +6,19 @@ interface Props {
   coupons: Coupon[];
 }
 
-// C
 const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
   return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
 };
 
-// C
 const getRemainingStock = (cart: CartItem[], product: Product) => {
   const cartItem = getCartItem(cart, product);
   return product.stock - (cartItem?.quantity || 0);
 };
 
-// C
 const getCartItem = (cart: CartItem[], product: Product) => {
   return cart.find((item) => item.product.id === product.id);
 };
 
-// C
 const getAppliedDiscount = (item: CartItem) => {
   const { discounts } = item.product;
   const { quantity } = item;
