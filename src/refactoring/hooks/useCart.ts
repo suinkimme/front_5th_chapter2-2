@@ -22,6 +22,9 @@ const addOrUpdateCartItem = (prevCart: CartItem[], product: Product) => {
   return [...prevCart, { product, quantity: 1 }];
 };
 
+const filteredCartItemByProductId = (prevCart: CartItem[], productId: string) =>
+  prevCart.filter((item) => item.product.id !== productId);
+
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
@@ -30,7 +33,9 @@ export const useCart = () => {
     setCart((prevCart) => addOrUpdateCartItem(prevCart, product));
   };
 
-  const removeFromCart = (productId: string) => {};
+  const removeFromCart = (productId: string) => {
+    setCart((prevCart) => filteredCartItemByProductId(prevCart, productId));
+  };
 
   const updateQuantity = (productId: string, newQuantity: number) => {};
 
