@@ -25,6 +25,25 @@ const addOrUpdateCartItem = (prevCart: CartItem[], product: Product) => {
 const filteredCartItemByProductId = (prevCart: CartItem[], productId: string) =>
   prevCart.filter((item) => item.product.id !== productId);
 
+const updateCartItemQuantity = (
+  prevCart: CartItem[],
+  productId: string,
+  newQuantity: number
+) => {
+  return prevCart
+    .map((item) => {
+      if (item.product.id === productId) {
+        const maxQuantity = item.product.stock;
+        const updatedQuantity = Math.max(0, Math.min(newQuantity, maxQuantity));
+        return updatedQuantity > 0
+          ? { ...item, quantity: updatedQuantity }
+          : null;
+      }
+      return item;
+    })
+    .filter((item): item is CartItem => item !== null);
+};
+
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
@@ -37,7 +56,11 @@ export const useCart = () => {
     setCart((prevCart) => filteredCartItemByProductId(prevCart, productId));
   };
 
-  const updateQuantity = (productId: string, newQuantity: number) => {};
+  const updateQuantity = (productId: string, newQuantity: number) => {
+    setCart((prevCart) =>
+      updateCartItemQuantity(prevCart, productId, newQuantity)
+    );
+  };
 
   const applyCoupon = (coupon: Coupon) => {
     setSelectedCoupon(coupon);
