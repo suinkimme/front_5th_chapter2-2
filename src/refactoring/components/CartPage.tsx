@@ -22,10 +22,8 @@ export const CartPage = ({ products, coupons }: Props) => {
     return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
   };
 
-  // A
-  // 암묵적 입력: cart
-  // 여전히 A
-  const getRemainingStock = (product: Product) => {
+  // C
+  const getRemainingStock = (cart: CartItem[], product: Product) => {
     const cartItem = getCartItem(cart, product);
     return product.stock - (cartItem?.quantity || 0);
   };
@@ -59,7 +57,7 @@ export const CartPage = ({ products, coupons }: Props) => {
           <h2 className="text-2xl font-semibold mb-4">상품 목록</h2>
           <div className="space-y-2">
             {products.map((product) => {
-              const remainingStock = getRemainingStock(product);
+              const remainingStock = getRemainingStock(cart, product);
               return (
                 <div
                   key={product.id}
