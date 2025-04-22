@@ -43,8 +43,6 @@ export const calculateCartTotal = (
   cart: CartItem[],
   selectedCoupon: Coupon | null
 ) => {
-  console.log(selectedCoupon);
-
   const { totalBeforeDiscount, totalAfterDiscount } =
     calculateTotalWithDiscount(cart);
   const totalDiscount = selectedCoupon
