@@ -7,8 +7,8 @@ import {
   calculateCartTotal,
 } from "../models/cart";
 
-const filteredCartItemByProductId = (prevCart: CartItem[], productId: string) =>
-  prevCart.filter((item) => item.product.id !== productId);
+// utils
+import { filteredCartItemByProductId } from "../utils";
 
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);

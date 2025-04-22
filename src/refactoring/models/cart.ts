@@ -1,54 +1,7 @@
 import { CartItem, Coupon, Product } from "../../types";
 
-// CartPage.js에 있는 getMaxDiscount로 계산 함수 분리해도 좋을 것 같음
-export const calculateCartItemTotal = (item: CartItem) => {
-  const discount = getMaxApplicableDiscount(item);
-  return item.product.price * item.quantity * (1 - discount);
-};
-
-export const calculateTotalWithDiscount = (cart: CartItem[]) => {
-  const totalBeforeDiscount = cart.reduce(
-    (total, item) => total + item.product.price * item.quantity,
-    0
-  );
-  const totalAfterDiscount = cart.reduce(
-    (total, item) => total + calculateCartItemTotal(item),
-    0
-  );
-
-  return {
-    totalBeforeDiscount,
-    totalAfterDiscount,
-  };
-};
-
-export const getMaxApplicableDiscount = (item: CartItem) =>
-  item.product.discounts.reduce(
-    (maxDiscount, d) =>
-      item.quantity >= d.quantity && d.rate > maxDiscount
-        ? d.rate
-        : maxDiscount,
-    0
-  );
-
-export const caclulateTotalDiscount = (
-  totalBeforeDiscount: number,
-  totalAfterDiscount: number,
-  selectedCoupon: Coupon | null
-) => {
-  const totalAfterCouponDiscount = selectedCoupon
-    ? selectedCoupon.discountType === "amount"
-      ? Math.max(0, totalAfterDiscount - selectedCoupon.discountValue)
-      : totalAfterDiscount * (1 - selectedCoupon.discountValue / 100)
-    : totalAfterDiscount;
-
-  const totalDiscount = totalBeforeDiscount - totalAfterCouponDiscount;
-
-  return {
-    totalAfterCouponDiscount,
-    totalDiscount,
-  };
-};
+// utils
+import { calculateTotalWithDiscount, caclulateTotalDiscount } from "../utils";
 
 export const calculateCartTotal = (
   cart: CartItem[],

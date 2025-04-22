@@ -1,37 +1,18 @@
 import { CartItem, Coupon, Product } from "../../types.ts";
 import { useCart } from "../hooks/index.ts";
 
+// utils
+import {
+  getMaxDiscount,
+  getRemainingStock,
+  isOutOfStock,
+  getAppliedDiscount,
+} from "../utils";
+
 interface Props {
   products: Product[];
   coupons: Coupon[];
 }
-
-const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
-  return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
-};
-
-const getRemainingStock = (cart: CartItem[], product: Product) => {
-  const cartItem = getCartItem(cart, product);
-  return product.stock - (cartItem?.quantity || 0);
-};
-
-const getCartItem = (cart: CartItem[], product: Product) => {
-  return cart.find((item) => item.product.id === product.id);
-};
-
-const isOutOfStock = (remainingStock: number) => remainingStock <= 0;
-
-const getAppliedDiscount = (item: CartItem) => {
-  const { discounts } = item.product;
-  const { quantity } = item;
-  let appliedDiscount = 0;
-  for (const discount of discounts) {
-    if (quantity >= discount.quantity) {
-      appliedDiscount = Math.max(appliedDiscount, discount.rate);
-    }
-  }
-  return appliedDiscount;
-};
 
 export const CartPage = ({ products, coupons }: Props) => {
   const {
