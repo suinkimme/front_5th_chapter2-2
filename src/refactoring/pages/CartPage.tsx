@@ -9,12 +9,16 @@ import {
   getAppliedDiscount,
 } from "../utils";
 
+// hooks
+import { useProducts } from "../hooks/index.ts";
+
 interface Props {
   products: Product[];
   coupons: Coupon[];
 }
 
-export const CartPage = ({ products, coupons }: Props) => {
+export const CartPage = ({ coupons }: Props) => {
+  const { products } = useProducts();
   const {
     cart,
     addToCart,
