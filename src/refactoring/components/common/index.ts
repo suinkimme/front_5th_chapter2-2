@@ -5,3 +5,4 @@ export { default as Content } from "./Content";
 export { default as Button } from "./Button";
 export { default as PageTitle } from "./PageTitle";
 export { default as SectionTitle } from "./SectionTitle";
+export { default as SelectBox } from "./SelectBox";

@@ -12,7 +12,11 @@ import { AdminPage } from "../../refactoring/pages/AdminPage";
 import { CartItem, Coupon, Product } from "../../types";
 import { useCart, useCoupons, useProducts } from "../../refactoring/hooks";
 import * as cartUtils from "../../refactoring/models/cart";
-import { ProductProvider, CouponProvider } from "../../refactoring/contexts";
+import {
+  ProductProvider,
+  CouponProvider,
+  CartProvider,
+} from "../../refactoring/contexts";
 
 const mockProducts: Product[] = [
   {
@@ -58,7 +62,9 @@ describe("basic > ", () => {
       render(
         <ProductProvider products={mockProducts}>
           <CouponProvider coupons={mockCoupons}>
-            <CartPage />
+            <CartProvider>
+              <CartPage />
+            </CartProvider>
           </CouponProvider>
         </ProductProvider>
       );
