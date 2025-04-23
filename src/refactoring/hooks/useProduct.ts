@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { Product, Discount } from "../../types.ts";
+import {
+  findProductById,
+  filterdUpdatedProductDiscounts,
+} from "../models/product.ts";
 
 export const useProducts = (initialProducts: Product[]) => {
   const [products, setProducts] = useState(initialProducts);
@@ -69,8 +73,12 @@ export const useProducts = (initialProducts: Product[]) => {
     }
   };
 
-  const stockUpdate = (productId: string, newStock: number) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+  const stockUpdate = (
+    products: Product[],
+    productId: string,
+    newStock: number
+  ) => {
+    const updatedProduct = findProductById(products, productId);
     if (updatedProduct) {
       const newProduct = { ...updatedProduct, stock: newStock };
       updateProduct(newProduct);
@@ -85,8 +93,8 @@ export const useProducts = (initialProducts: Product[]) => {
     }
   };
 
-  const addDiscount = (productId: string) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+  const addDiscount = (products: Product[], productId: string) => {
+    const updatedProduct = findProductById(products, productId);
     if (updatedProduct && editingProduct) {
       const newProduct = {
         ...updatedProduct,
@@ -98,12 +106,16 @@ export const useProducts = (initialProducts: Product[]) => {
     }
   };
 
-  const removeDiscount = (productId: string, index: number) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+  const removeDiscount = (
+    products: Product[],
+    productId: string,
+    index: number
+  ) => {
+    const updatedProduct = findProductById(products, productId);
     if (updatedProduct) {
       const newProduct = {
         ...updatedProduct,
-        discounts: updatedProduct.discounts.filter((_, i) => i !== index),
+        discounts: filterdUpdatedProductDiscounts(updatedProduct, index),
       };
       updateProduct(newProduct);
       setEditingProduct(newProduct);

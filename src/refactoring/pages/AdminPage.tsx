@@ -154,7 +154,11 @@ export const AdminPage = () => {
                             type="number"
                             value={editingProduct.stock}
                             onChange={(e) =>
-                              stockUpdate(product.id, parseInt(e.target.value))
+                              stockUpdate(
+                                products,
+                                product.id,
+                                parseInt(e.target.value)
+                              )
                             }
                             className="w-full p-2 border rounded"
                           />
@@ -175,7 +179,7 @@ export const AdminPage = () => {
                               </span>
                               <button
                                 onClick={() =>
-                                  removeDiscount(product.id, index)
+                                  removeDiscount(products, product.id, index)
                                 }
                                 className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                               >
@@ -209,7 +213,7 @@ export const AdminPage = () => {
                               className="w-1/3 p-2 border rounded"
                             />
                             <button
-                              onClick={() => addDiscount(product.id)}
+                              onClick={() => addDiscount(products, product.id)}
                               className="w-1/3 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
                             >
                               할인 추가
