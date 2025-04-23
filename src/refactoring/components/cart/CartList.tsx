@@ -1,5 +1,6 @@
 import { useCartContext } from "../../contexts";
 import { getAppliedDiscount } from "../../models/cart";
+import { IncrementButton, DecrementButton } from "../";
 
 const CartList = () => {
   const { cart, removeFromCart, updateQuantity } = useCartContext();
@@ -26,22 +27,16 @@ const CartList = () => {
               </span>
             </div>
             <div>
-              <button
+              <DecrementButton
                 onClick={() =>
                   updateQuantity(item.product.id, item.quantity - 1)
                 }
-                className="bg-gray-300 text-gray-800 px-2 py-1 rounded mr-1 hover:bg-gray-400"
-              >
-                -
-              </button>
-              <button
+              />
+              <IncrementButton
                 onClick={() =>
                   updateQuantity(item.product.id, item.quantity + 1)
                 }
-                className="bg-gray-300 text-gray-800 px-2 py-1 rounded mr-1 hover:bg-gray-400"
-              >
-                +
-              </button>
+              />
               <button
                 onClick={() => removeFromCart(item.product.id)}
                 className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
