@@ -1,8 +1,7 @@
-import { useCart } from "../hooks/index.ts";
-import { useCouponContext } from "../contexts";
+import { useCouponContext, useCartContext } from "../contexts";
 import { getAppliedDiscount } from "../models/cart";
 
-import { InventoryProductList } from "../components";
+import { InventoryProductList, PageTitle, SectionTitle } from "../components";
 
 export const CartPage = () => {
   const { coupons } = useCouponContext();
@@ -13,21 +12,21 @@ export const CartPage = () => {
     applyCoupon,
     calculateTotal,
     selectedCoupon,
-  } = useCart();
+  } = useCartContext();
 
   const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } =
     calculateTotal();
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">장바구니</h1>
+      <PageTitle>장바구니</PageTitle>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">상품 목록</h2>
+          <SectionTitle>상품 목록</SectionTitle>
           <InventoryProductList />
         </div>
         <div>
-          <h2 className="text-2xl font-semibold mb-4">장바구니 내역</h2>
+          <SectionTitle>장바구니 내역</SectionTitle>
 
           <div className="space-y-2">
             {cart.map((item) => {
@@ -79,7 +78,7 @@ export const CartPage = () => {
           </div>
 
           <div className="mt-6 bg-white p-4 rounded shadow">
-            <h2 className="text-2xl font-semibold mb-2">쿠폰 적용</h2>
+            <SectionTitle>쿠폰 적용</SectionTitle>
             <select
               onChange={(e) => applyCoupon(coupons[parseInt(e.target.value)])}
               className="w-full p-2 border rounded mb-2"
@@ -106,7 +105,7 @@ export const CartPage = () => {
           </div>
 
           <div className="mt-6 bg-white p-4 rounded shadow">
-            <h2 className="text-2xl font-semibold mb-2">주문 요약</h2>
+            <SectionTitle>주문 요약</SectionTitle>
             <div className="space-y-1">
               <p>상품 금액: {totalBeforeDiscount.toLocaleString()}원</p>
               <p className="text-green-600">
