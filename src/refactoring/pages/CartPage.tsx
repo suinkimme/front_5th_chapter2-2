@@ -2,7 +2,7 @@ import { useCart } from "../hooks/index.ts";
 import { useCouponContext } from "../contexts";
 import { getAppliedDiscount } from "../models/cart";
 
-import { ProductList } from "../components";
+import { InventoryProductList } from "../components";
 
 export const CartPage = () => {
   const { coupons } = useCouponContext();
@@ -24,7 +24,7 @@ export const CartPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h2 className="text-2xl font-semibold mb-4">상품 목록</h2>
-          <ProductList />
+          <InventoryProductList />
         </div>
         <div>
           <h2 className="text-2xl font-semibold mb-4">장바구니 내역</h2>
