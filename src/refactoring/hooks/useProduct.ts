@@ -104,7 +104,7 @@ export const useProducts = (initialProducts: Product[]) => {
   const editNewDiscountRate = (newDiscount: Discount, newRate: number) => {
     setNewDiscount({
       ...newDiscount,
-      rate: newRate / 100,
+      rate: newRate,
     });
   };
 
@@ -113,6 +113,7 @@ export const useProducts = (initialProducts: Product[]) => {
     openProductIds,
     editingProduct,
     newDiscount,
+    updateProduct,
     addProduct,
     toggleProductAccordion,
     editProduct,

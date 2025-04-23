@@ -10,8 +10,12 @@ export const useCoupons = (initialCoupons: Coupon[]) => {
     discountValue: 0,
   });
 
-  const addCoupon = () => {
-    setCoupons((prevCoupons) => [...prevCoupons, newCoupon]);
+  const addCoupon = (coupon: Coupon) => {
+    setCoupons((prevCoupons) => [...prevCoupons, coupon]);
+  };
+
+  const createCoupon = () => {
+    addCoupon(newCoupon);
     setNewCoupon({
       name: "",
       code: "",
@@ -20,5 +24,36 @@ export const useCoupons = (initialCoupons: Coupon[]) => {
     });
   };
 
-  return { coupons, newCoupon, addCoupon };
+  const editNewCouponName = (newCoupon: Coupon, newName: string) => {
+    setNewCoupon({ ...newCoupon, name: newName });
+  };
+
+  const editNewCouponCode = (newCoupon: Coupon, newCode: string) => {
+    setNewCoupon({ ...newCoupon, code: newCode });
+  };
+
+  const editNewCouponDiscountType = (
+    newCoupon: Coupon,
+    newDiscountType: "amount" | "percentage"
+  ) => {
+    setNewCoupon({ ...newCoupon, discountType: newDiscountType });
+  };
+
+  const editNewCouponDiscountValue = (
+    newCoupon: Coupon,
+    newDiscountValue: number
+  ) => {
+    setNewCoupon({ ...newCoupon, discountValue: newDiscountValue });
+  };
+
+  return {
+    coupons,
+    newCoupon,
+    addCoupon,
+    createCoupon,
+    editNewCouponName,
+    editNewCouponCode,
+    editNewCouponDiscountType,
+    editNewCouponDiscountValue,
+  };
 };
