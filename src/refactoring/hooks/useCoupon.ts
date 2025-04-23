@@ -10,11 +10,7 @@ export const useCoupons = (initialCoupons: Coupon[]) => {
     discountValue: 0,
   });
 
-  const addCoupon = (coupon: Coupon) => {
-    setCoupons((prevCoupons) => [...prevCoupons, coupon]);
-  };
-
-  const createCoupon = () => {
+  const createCoupon = (newCoupon: Coupon) => {
     addCoupon(newCoupon);
     setNewCoupon({
       name: "",
@@ -22,6 +18,10 @@ export const useCoupons = (initialCoupons: Coupon[]) => {
       discountType: "percentage",
       discountValue: 0,
     });
+  };
+
+  const addCoupon = (coupon: Coupon) => {
+    setCoupons((prevCoupons) => [...prevCoupons, coupon]);
   };
 
   const editNewCouponName = (newCoupon: Coupon, newName: string) => {
@@ -49,8 +49,8 @@ export const useCoupons = (initialCoupons: Coupon[]) => {
   return {
     coupons,
     newCoupon,
-    addCoupon,
     createCoupon,
+    addCoupon,
     editNewCouponName,
     editNewCouponCode,
     editNewCouponDiscountType,

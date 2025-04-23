@@ -17,14 +17,26 @@ export const useProducts = (initialProducts: Product[]) => {
     discounts: [],
   });
 
-  const updateProduct = (product: Product) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((item) => (item.id === product.id ? product : item))
-    );
+  const createProduct = (newProduct: Omit<Product, "id">) => {
+    const productWithId = { ...newProduct, id: Date.now().toString() };
+    addProduct(productWithId);
+    setNewProduct({
+      name: "",
+      price: 0,
+      stock: 0,
+      discounts: [],
+    });
+    setShowNewProductForm(false);
   };
 
   const addProduct = (product: Product) => {
     setProducts((prevProducts) => [...prevProducts, product]);
+  };
+
+  const updateProduct = (product: Product) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((item) => (item.id === product.id ? product : item))
+    );
   };
 
   const toggleProductAccordion = (productId: string) => {
@@ -57,19 +69,19 @@ export const useProducts = (initialProducts: Product[]) => {
     }
   };
 
-  const editComplete = () => {
-    if (editingProduct) {
-      updateProduct(editingProduct);
-      setEditingProduct(null);
-    }
-  };
-
   const stockUpdate = (productId: string, newStock: number) => {
     const updatedProduct = products.find((p) => p.id === productId);
     if (updatedProduct) {
       const newProduct = { ...updatedProduct, stock: newStock };
       updateProduct(newProduct);
       setEditingProduct(newProduct);
+    }
+  };
+
+  const editComplete = () => {
+    if (editingProduct) {
+      updateProduct(editingProduct);
+      setEditingProduct(null);
     }
   };
 
@@ -98,6 +110,10 @@ export const useProducts = (initialProducts: Product[]) => {
     }
   };
 
+  const toggleShowNewProductForm = (show: boolean) => {
+    setShowNewProductForm(show);
+  };
+
   const editNewDiscountQuantity = (
     newDiscount: Discount,
     newQuantity: number
@@ -113,18 +129,6 @@ export const useProducts = (initialProducts: Product[]) => {
       ...newDiscount,
       rate: newRate,
     });
-  };
-
-  const createProduct = (newProduct: Omit<Product, "id">) => {
-    const productWithId = { ...newProduct, id: Date.now().toString() };
-    addProduct(productWithId);
-    setNewProduct({
-      name: "",
-      price: 0,
-      stock: 0,
-      discounts: [],
-    });
-    setShowNewProductForm(false);
   };
 
   const editNewProductStock = (
@@ -157,33 +161,29 @@ export const useProducts = (initialProducts: Product[]) => {
     });
   };
 
-  const toggleShowNewProductForm = (show: boolean) => {
-    setShowNewProductForm(show);
-  };
-
   return {
     products,
-    openProductIds,
-    editingProduct,
     newProduct,
     newDiscount,
+    openProductIds,
     showNewProductForm,
-    updateProduct,
+    editingProduct,
+    createProduct,
     addProduct,
+    updateProduct,
     toggleProductAccordion,
     editProduct,
     productNameUpdate,
     priceUpdate,
-    editComplete,
     stockUpdate,
+    editComplete,
     addDiscount,
     removeDiscount,
     editNewDiscountQuantity,
     editNewDiscountRate,
-    createProduct,
+    toggleShowNewProductForm,
     editNewProductStock,
     editNewProductPrice,
     editNewProductName,
-    toggleShowNewProductForm,
   };
 };

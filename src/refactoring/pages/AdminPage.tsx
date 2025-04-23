@@ -4,25 +4,25 @@ export const AdminPage = () => {
   const {
     products,
     newProduct,
-    openProductIds,
-    editingProduct,
     newDiscount,
+    openProductIds,
     showNewProductForm,
+    editingProduct,
     createProduct,
     toggleProductAccordion,
     editProduct,
     productNameUpdate,
     priceUpdate,
-    editComplete,
     stockUpdate,
+    editComplete,
     addDiscount,
     removeDiscount,
     editNewDiscountQuantity,
     editNewDiscountRate,
+    toggleShowNewProductForm,
     editNewProductStock,
     editNewProductPrice,
     editNewProductName,
-    toggleShowNewProductForm,
   } = useProductContext();
   const {
     coupons,
@@ -294,7 +294,7 @@ export const AdminPage = () => {
                 />
               </div>
               <button
-                onClick={createCoupon}
+                onClick={() => createCoupon(newCoupon)}
                 className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
               >
                 쿠폰 추가
