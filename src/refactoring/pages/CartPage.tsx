@@ -1,14 +1,12 @@
 import { CartItem, Coupon, Product } from "../../types.ts";
 import { useCart } from "../hooks/index.ts";
 import { useProductContext } from "../contexts";
-
-// utils
 import {
   getMaxDiscount,
   getRemainingStock,
   isOutOfStock,
   getAppliedDiscount,
-} from "../utils";
+} from "../models/cart";
 
 interface Props {
   coupons: Coupon[];

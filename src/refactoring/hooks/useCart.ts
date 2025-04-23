@@ -5,10 +5,8 @@ import {
   addOrUpdateCartItem,
   updateCartItemQuantity,
   calculateCartTotal,
+  filteredCartItemByProductId,
 } from "../models/cart";
-
-// utils
-import { filteredCartItemByProductId } from "../utils";
 
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
