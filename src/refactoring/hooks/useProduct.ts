@@ -91,6 +91,20 @@ export const useProducts = (initialProducts: Product[]) => {
     }
   };
 
+  const editNewDiscountQuantity = (newDiscount: Discount, quantity: number) => {
+    setNewDiscount({
+      ...newDiscount,
+      quantity,
+    });
+  };
+
+  const editNewDiscountRate = (newDiscount: Discount, rate: number) => {
+    setNewDiscount({
+      ...newDiscount,
+      rate: rate / 100,
+    });
+  };
+
   return {
     products,
     openProductIds,
@@ -105,5 +119,7 @@ export const useProducts = (initialProducts: Product[]) => {
     stockUpdate,
     addDiscount,
     removeDiscount,
+    editNewDiscountQuantity,
+    editNewDiscountRate,
   };
 };
