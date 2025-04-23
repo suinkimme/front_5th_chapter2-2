@@ -10,12 +10,12 @@ const ProductContext = createContext<ProductContextType | null>(null);
 
 export const ProductProvider = ({
   children,
-  initialProducts,
+  products,
 }: {
   children: ReactNode;
-  initialProducts: Product[];
+  products: Product[];
 }) => {
-  const value = useProducts(initialProducts);
+  const value = useProducts(products);
 
   return (
     <ProductContext.Provider value={value}>{children}</ProductContext.Provider>

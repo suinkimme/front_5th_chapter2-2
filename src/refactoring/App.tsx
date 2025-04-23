@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CartPage } from "./pages/CartPage.tsx";
 import { AdminPage } from "./pages/AdminPage.tsx";
 import { Coupon, Product } from "../types.ts";
-import { useCoupons, useProducts } from "./hooks";
+import { useCoupons } from "./hooks";
 import { ProductProvider } from "./contexts";
 
 const initialProducts: Product[] = [
@@ -52,7 +52,7 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   return (
-    <ProductProvider initialProducts={initialProducts}>
+    <ProductProvider products={initialProducts}>
       <div className="min-h-screen bg-gray-100">
         <nav className="bg-blue-600 text-white p-4">
           <div className="container mx-auto flex justify-between items-center">
