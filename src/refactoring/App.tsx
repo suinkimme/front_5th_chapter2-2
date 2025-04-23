@@ -1,5 +1,10 @@
 import { Coupon, Product } from "../types.ts";
-import { ProductProvider, CouponProvider, AuthProvider } from "./contexts";
+import {
+  ProductProvider,
+  CouponProvider,
+  AuthProvider,
+  CartProvider,
+} from "./contexts";
 
 import { Navigation, Content } from "./components";
 
@@ -52,7 +57,9 @@ const App = () => {
         <CouponProvider coupons={initialCoupons}>
           <div className="min-h-screen bg-gray-100">
             <Navigation />
-            <Content />
+            <CartProvider>
+              <Content />
+            </CartProvider>
           </div>
         </CouponProvider>
       </ProductProvider>

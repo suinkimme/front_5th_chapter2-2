@@ -6,11 +6,20 @@ import {
   updateCartItemQuantity,
   calculateCartTotal,
   filteredCartItemByProductId,
+  getRemainingStock,
+  isOutOfStock,
 } from "../models/cart";
 
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
+
+  const handleAddToCart = (cart: CartItem[], product: Product) => {
+    const remainingStock = getRemainingStock(cart, product);
+    if (isOutOfStock(remainingStock)) return;
+
+    addToCart(product);
+  };
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => addOrUpdateCartItem(prevCart, product));
@@ -34,6 +43,7 @@ export const useCart = () => {
 
   return {
     cart,
+    handleAddToCart,
     addToCart,
     removeFromCart,
     updateQuantity,
