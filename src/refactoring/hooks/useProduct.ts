@@ -91,17 +91,20 @@ export const useProducts = (initialProducts: Product[]) => {
     }
   };
 
-  const editNewDiscountQuantity = (newDiscount: Discount, quantity: number) => {
+  const editNewDiscountQuantity = (
+    newDiscount: Discount,
+    newQuantity: number
+  ) => {
     setNewDiscount({
       ...newDiscount,
-      quantity,
+      quantity: newQuantity,
     });
   };
 
-  const editNewDiscountRate = (newDiscount: Discount, rate: number) => {
+  const editNewDiscountRate = (newDiscount: Discount, newRate: number) => {
     setNewDiscount({
       ...newDiscount,
-      rate: rate / 100,
+      rate: newRate / 100,
     });
   };
 
