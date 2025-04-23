@@ -1,6 +1,6 @@
-import { CartItem, Coupon, Product } from "../../types.ts";
+import { CartItem, Product } from "../../types.ts";
 import { useCart } from "../hooks/index.ts";
-import { useProductContext } from "../contexts";
+import { useProductContext, useCouponContext } from "../contexts";
 import {
   getMaxDiscount,
   getRemainingStock,
@@ -8,12 +8,9 @@ import {
   getAppliedDiscount,
 } from "../models/cart";
 
-interface Props {
-  coupons: Coupon[];
-}
-
-export const CartPage = ({ coupons }: Props) => {
+export const CartPage = () => {
   const { products } = useProductContext();
+  const { coupons } = useCouponContext();
   const {
     cart,
     addToCart,

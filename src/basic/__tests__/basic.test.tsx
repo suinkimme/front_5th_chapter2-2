@@ -13,7 +13,7 @@ import { AdminPage } from "../../refactoring/pages/AdminPage";
 import { CartItem, Coupon, Product } from "../../types";
 import { useCart, useCoupons, useProducts } from "../../refactoring/hooks";
 import * as cartUtils from "../../refactoring/models/cart";
-import { ProductProvider } from "../../refactoring/contexts";
+import { ProductProvider, CouponProvider } from "../../refactoring/contexts";
 
 const mockProducts: Product[] = [
   {
@@ -53,33 +53,14 @@ const mockCoupons: Coupon[] = [
   },
 ];
 
-const TestAdminPage = () => {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
-  const [coupons, setCoupons] = useState<Coupon[]>(mockCoupons);
-
-  // const handleProductUpdate = (updatedProduct: Product) => {
-  //   setProducts((prevProducts) =>
-  //     prevProducts.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
-  //   );
-  // };
-
-  // const handleProductAdd = (newProduct: Product) => {
-  //   setProducts((prevProducts) => [...prevProducts, newProduct]);
-  // };
-
-  const handleCouponAdd = (newCoupon: Coupon) => {
-    setCoupons((prevCoupons) => [...prevCoupons, newCoupon]);
-  };
-
-  return <AdminPage coupons={coupons} onCouponAdd={handleCouponAdd} />;
-};
-
 describe("basic > ", () => {
   describe("시나리오 테스트 > ", () => {
     test("장바구니 페이지 테스트 > ", async () => {
       render(
         <ProductProvider products={mockProducts}>
-          <CartPage coupons={mockCoupons} />
+          <CouponProvider coupons={mockCoupons}>
+            <CartPage />
+          </CouponProvider>
         </ProductProvider>
       );
       const product1 = screen.getByTestId("product-p1");
@@ -161,7 +142,13 @@ describe("basic > ", () => {
     });
 
     test("관리자 페이지 테스트 > ", async () => {
-      render(<TestAdminPage />);
+      render(
+        <ProductProvider products={mockProducts}>
+          <CouponProvider coupons={mockCoupons}>
+            <AdminPage />
+          </CouponProvider>
+        </ProductProvider>
+      );
 
       const $product1 = screen.getByTestId("product-1");
 
