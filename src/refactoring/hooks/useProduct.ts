@@ -9,6 +9,13 @@ export const useProducts = (initialProducts: Product[]) => {
     quantity: 0,
     rate: 0,
   });
+  const [showNewProductForm, setShowNewProductForm] = useState(false);
+  const [newProduct, setNewProduct] = useState<Omit<Product, "id">>({
+    name: "",
+    price: 0,
+    stock: 0,
+    discounts: [],
+  });
 
   const updateProduct = (product: Product) => {
     setProducts((prevProducts) =>
@@ -108,11 +115,59 @@ export const useProducts = (initialProducts: Product[]) => {
     });
   };
 
+  const createProduct = (newProduct: Omit<Product, "id">) => {
+    const productWithId = { ...newProduct, id: Date.now().toString() };
+    addProduct(productWithId);
+    setNewProduct({
+      name: "",
+      price: 0,
+      stock: 0,
+      discounts: [],
+    });
+    setShowNewProductForm(false);
+  };
+
+  const editNewProductStock = (
+    newProduct: Omit<Product, "id">,
+    newStock: number
+  ) => {
+    setNewProduct({
+      ...newProduct,
+      stock: newStock,
+    });
+  };
+
+  const editNewProductPrice = (
+    newProduct: Omit<Product, "id">,
+    newPrice: number
+  ) => {
+    setNewProduct({
+      ...newProduct,
+      price: newPrice,
+    });
+  };
+
+  const editNewProductName = (
+    newProduct: Omit<Product, "id">,
+    newName: string
+  ) => {
+    setNewProduct({
+      ...newProduct,
+      name: newName,
+    });
+  };
+
+  const toggleShowNewProductForm = (show: boolean) => {
+    setShowNewProductForm(show);
+  };
+
   return {
     products,
     openProductIds,
     editingProduct,
+    newProduct,
     newDiscount,
+    showNewProductForm,
     updateProduct,
     addProduct,
     toggleProductAccordion,
@@ -125,5 +180,10 @@ export const useProducts = (initialProducts: Product[]) => {
     removeDiscount,
     editNewDiscountQuantity,
     editNewDiscountRate,
+    createProduct,
+    editNewProductStock,
+    editNewProductPrice,
+    editNewProductName,
+    toggleShowNewProductForm,
   };
 };

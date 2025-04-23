@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Product } from "../../types";
 import { useProductContext, useCouponContext } from "../contexts";
 
 export const AdminPage = () => {
   const {
     products,
+    newProduct,
     openProductIds,
     editingProduct,
     newDiscount,
-    addProduct,
+    showNewProductForm,
+    createProduct,
     toggleProductAccordion,
     editProduct,
     productNameUpdate,
@@ -19,6 +19,10 @@ export const AdminPage = () => {
     removeDiscount,
     editNewDiscountQuantity,
     editNewDiscountRate,
+    editNewProductStock,
+    editNewProductPrice,
+    editNewProductName,
+    toggleShowNewProductForm,
   } = useProductContext();
   const {
     coupons,
@@ -30,26 +34,6 @@ export const AdminPage = () => {
     editNewCouponDiscountValue,
   } = useCouponContext();
 
-  const [showNewProductForm, setShowNewProductForm] = useState(false);
-  const [newProduct, setNewProduct] = useState<Omit<Product, "id">>({
-    name: "",
-    price: 0,
-    stock: 0,
-    discounts: [],
-  });
-
-  const handleAddNewProduct = () => {
-    const productWithId = { ...newProduct, id: Date.now().toString() };
-    addProduct(productWithId);
-    setNewProduct({
-      name: "",
-      price: 0,
-      stock: 0,
-      discounts: [],
-    });
-    setShowNewProductForm(false);
-  };
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">관리자 페이지</h1>
@@ -57,7 +41,7 @@ export const AdminPage = () => {
         <div>
           <h2 className="text-2xl font-semibold mb-4">상품 관리</h2>
           <button
-            onClick={() => setShowNewProductForm(!showNewProductForm)}
+            onClick={() => toggleShowNewProductForm(!showNewProductForm)}
             className="bg-green-500 text-white px-4 py-2 rounded mb-4 hover:bg-green-600"
           >
             {showNewProductForm ? "취소" : "새 상품 추가"}
@@ -77,7 +61,7 @@ export const AdminPage = () => {
                   type="text"
                   value={newProduct.name}
                   onChange={(e) =>
-                    setNewProduct({ ...newProduct, name: e.target.value })
+                    editNewProductName(newProduct, e.target.value)
                   }
                   className="w-full p-2 border rounded"
                 />
@@ -94,10 +78,7 @@ export const AdminPage = () => {
                   type="number"
                   value={newProduct.price}
                   onChange={(e) =>
-                    setNewProduct({
-                      ...newProduct,
-                      price: parseInt(e.target.value),
-                    })
+                    editNewProductPrice(newProduct, parseInt(e.target.value))
                   }
                   className="w-full p-2 border rounded"
                 />
@@ -114,16 +95,13 @@ export const AdminPage = () => {
                   type="number"
                   value={newProduct.stock}
                   onChange={(e) =>
-                    setNewProduct({
-                      ...newProduct,
-                      stock: parseInt(e.target.value),
-                    })
+                    editNewProductStock(newProduct, parseInt(e.target.value))
                   }
                   className="w-full p-2 border rounded"
                 />
               </div>
               <button
-                onClick={handleAddNewProduct}
+                onClick={() => createProduct(newProduct)}
                 className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
               >
                 추가
