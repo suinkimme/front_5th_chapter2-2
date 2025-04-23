@@ -1,25 +1,14 @@
 import { useState } from "react";
 import { Coupon, Discount, Product } from "../../types.ts";
-
-/**
- * 1. 액션 함수와 계산 함수 분리
- */
+import { useProductContext } from "../contexts/ProductContext.tsx";
 
 interface Props {
-  products: Product[];
   coupons: Coupon[];
-  onProductUpdate: (updatedProduct: Product) => void;
-  onProductAdd: (newProduct: Product) => void;
   onCouponAdd: (newCoupon: Coupon) => void;
 }
 
-export const AdminPage = ({
-  products,
-  coupons,
-  onProductUpdate,
-  onProductAdd,
-  onCouponAdd,
-}: Props) => {
+export const AdminPage = ({ coupons, onCouponAdd }: Props) => {
+  const { products, updateProduct, addProduct } = useProductContext();
   const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newDiscount, setNewDiscount] = useState<Discount>({
@@ -76,7 +65,7 @@ export const AdminPage = ({
   // 수정 완료 핸들러 함수 추가
   const handleEditComplete = () => {
     if (editingProduct) {
-      onProductUpdate(editingProduct);
+      updateProduct(editingProduct);
       setEditingProduct(null);
     }
   };
@@ -85,7 +74,7 @@ export const AdminPage = ({
     const updatedProduct = products.find((p) => p.id === productId);
     if (updatedProduct) {
       const newProduct = { ...updatedProduct, stock: newStock };
-      onProductUpdate(newProduct);
+      updateProduct(newProduct);
       setEditingProduct(newProduct);
     }
   };
@@ -97,7 +86,7 @@ export const AdminPage = ({
         ...updatedProduct,
         discounts: [...updatedProduct.discounts, newDiscount],
       };
-      onProductUpdate(newProduct);
+      updateProduct(newProduct);
       setEditingProduct(newProduct);
       setNewDiscount({ quantity: 0, rate: 0 });
     }
@@ -110,7 +99,7 @@ export const AdminPage = ({
         ...updatedProduct,
         discounts: updatedProduct.discounts.filter((_, i) => i !== index),
       };
-      onProductUpdate(newProduct);
+      updateProduct(newProduct);
       setEditingProduct(newProduct);
     }
   };
@@ -127,7 +116,7 @@ export const AdminPage = ({
 
   const handleAddNewProduct = () => {
     const productWithId = { ...newProduct, id: Date.now().toString() };
-    onProductAdd(productWithId);
+    addProduct(productWithId);
     setNewProduct({
       name: "",
       price: 0,

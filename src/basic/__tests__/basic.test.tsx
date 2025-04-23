@@ -84,7 +84,7 @@ const TestAdminPage = () => {
 describe("basic > ", () => {
   describe("시나리오 테스트 > ", () => {
     test("장바구니 페이지 테스트 > ", async () => {
-      render(<CartPage products={mockProducts} coupons={mockCoupons} />);
+      render(<CartPage coupons={mockCoupons} />);
       const product1 = screen.getByTestId("product-p1");
       const product2 = screen.getByTestId("product-p2");
       const product3 = screen.getByTestId("product-p3");
@@ -352,15 +352,15 @@ describe("basic > ", () => {
       ],
     };
 
-    describe("calculateItemTotal", () => {
+    describe("calculateCartItemTotal", () => {
       test("할인 없이 총액을 계산해야 합니다.", () => {
         const item: CartItem = { product: testProduct, quantity: 1 };
-        expect(cartUtils.calculateItemTotal(item)).toBe(100);
+        expect(cartUtils.calculateCartItemTotal(item)).toBe(100);
       });
 
       test("수량에 따라 올바른 할인을 적용해야 합니다.", () => {
         const item: CartItem = { product: testProduct, quantity: 5 };
-        expect(cartUtils.calculateItemTotal(item)).toBe(400); // 500 * 0.8
+        expect(cartUtils.calculateCartItemTotal(item)).toBe(400); // 500 * 0.8
       });
     });
 
