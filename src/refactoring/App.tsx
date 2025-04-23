@@ -1,6 +1,5 @@
 import { Coupon, Product } from "../types.ts";
 import { ProductProvider, CouponProvider, AuthProvider } from "./contexts";
-import { CartPage, AdminPage } from "./pages";
 
 import { Navigation, Content } from "./components";
 
