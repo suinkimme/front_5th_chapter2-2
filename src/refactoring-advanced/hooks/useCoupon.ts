@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useLocalStorage } from "./";
 import { Coupon } from "../../types.ts";
 
 export const useCoupons = (initialCoupons: Coupon[]) => {
-  const [coupons, setCoupons] = useState(initialCoupons);
+  const [coupons, setCoupons] = useLocalStorage("coupons", initialCoupons);
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     name: "",
     code: "",

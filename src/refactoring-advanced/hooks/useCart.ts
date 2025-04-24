@@ -1,5 +1,6 @@
 // useCart.ts
 import { useState } from "react";
+import { useLocalStorage } from "./";
 import { CartItem, Coupon, Product } from "../../types";
 import {
   addOrUpdateCartItem,
@@ -11,7 +12,7 @@ import {
 } from "../models/cart";
 
 export const useCart = () => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useLocalStorage<CartItem[]>("cart", []);
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
 
   const handleAddToCart = (cart: CartItem[], product: Product) => {

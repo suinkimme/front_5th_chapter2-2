@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocalStorage } from "./";
 import { Product, Discount } from "../../types.ts";
 import {
   findProductById,
@@ -6,7 +7,7 @@ import {
 } from "../models/product.ts";
 
 export const useProducts = (initialProducts: Product[]) => {
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useLocalStorage("products", initialProducts);
   const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newDiscount, setNewDiscount] = useState<Discount>({
