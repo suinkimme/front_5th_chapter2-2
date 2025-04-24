@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Product, Discount } from "../../types.ts";
 import {
   findProductById,
   filterdUpdatedProductDiscounts,
 } from "../models/product.ts";
 
-export const useProducts = (initialProducts: Product[]) => {
-  const [products, setProducts] = useState(initialProducts);
+export const useProducts = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newDiscount, setNewDiscount] = useState<Discount>({
@@ -172,6 +172,12 @@ export const useProducts = (initialProducts: Product[]) => {
       name: newName,
     });
   };
+
+  useEffect(() => {
+    fetch("/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
 
   return {
     products,

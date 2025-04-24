@@ -1,5 +1,4 @@
 import { createContext, useContext, ReactNode } from "react";
-import { Coupon } from "../../types";
 
 // hooks
 import { useCoupons } from "../hooks";
@@ -8,14 +7,8 @@ type CouponContextType = ReturnType<typeof useCoupons>;
 
 const CouponContext = createContext<CouponContextType | null>(null);
 
-export const CouponProvider = ({
-  children,
-  coupons,
-}: {
-  children: ReactNode;
-  coupons: Coupon[];
-}) => {
-  const value = useCoupons(coupons);
+export const CouponProvider = ({ children }: { children: ReactNode }) => {
+  const value = useCoupons();
 
   return (
     <CouponContext.Provider value={value}>{children}</CouponContext.Provider>

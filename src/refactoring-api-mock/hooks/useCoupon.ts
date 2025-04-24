@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Coupon } from "../../types.ts";
 
-export const useCoupons = (initialCoupons: Coupon[]) => {
-  const [coupons, setCoupons] = useState(initialCoupons);
+export const useCoupons = () => {
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     name: "",
     code: "",
@@ -45,6 +45,12 @@ export const useCoupons = (initialCoupons: Coupon[]) => {
   ) => {
     setNewCoupon({ ...newCoupon, discountValue: newDiscountValue });
   };
+
+  useEffect(() => {
+    fetch("/coupons")
+      .then((res) => res.json())
+      .then((data) => setCoupons(data));
+  }, []);
 
   return {
     coupons,
