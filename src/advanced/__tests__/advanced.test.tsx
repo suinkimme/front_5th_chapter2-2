@@ -14,6 +14,7 @@ import {
   ProductProvider,
   CouponProvider,
   CartProvider,
+  AuthProvider,
 } from "../../refactoring/contexts";
 
 import {
@@ -217,11 +218,15 @@ describe("advanced > ", () => {
 
     test("관리자 페이지 테스트 > ", async () => {
       render(
-        <ProductProvider products={mockProducts}>
-          <CouponProvider coupons={mockCoupons}>
-            <AdminPage />
-          </CouponProvider>
-        </ProductProvider>
+        <AuthProvider>
+          <ProductProvider products={mockProducts}>
+            <CouponProvider coupons={mockCoupons}>
+              <CartProvider>
+                <AdminPage />
+              </CartProvider>
+            </CouponProvider>
+          </ProductProvider>
+        </AuthProvider>
       );
 
       const $product1 = screen.getByTestId("product-1");
@@ -375,7 +380,7 @@ describe("advanced > ", () => {
           const item = { product: mockProduct, quantity: 10 };
           const cart = [item];
           const { totalAfterDiscount, totalBeforeDiscount, totalDiscount } =
-            calculateCartTotal(cart, mockCoupon);
+            calculateCartTotal(cart, mockCoupon, null);
 
           expect(totalBeforeDiscount).toBe(100000); // 10 * 10000
           expect(totalAfterDiscount).toBeCloseTo(72000); // 20% + 10% 쿠폰

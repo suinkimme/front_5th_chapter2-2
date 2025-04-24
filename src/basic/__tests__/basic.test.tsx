@@ -16,6 +16,7 @@ import {
   ProductProvider,
   CouponProvider,
   CartProvider,
+  AuthProvider,
 } from "../../refactoring/contexts";
 
 const mockProducts: Product[] = [
@@ -60,13 +61,15 @@ describe("basic > ", () => {
   describe("시나리오 테스트 > ", () => {
     test("장바구니 페이지 테스트 > ", async () => {
       render(
-        <ProductProvider products={mockProducts}>
-          <CouponProvider coupons={mockCoupons}>
-            <CartProvider>
-              <CartPage />
-            </CartProvider>
-          </CouponProvider>
-        </ProductProvider>
+        <AuthProvider>
+          <ProductProvider products={mockProducts}>
+            <CouponProvider coupons={mockCoupons}>
+              <CartProvider>
+                <CartPage />
+              </CartProvider>
+            </CouponProvider>
+          </ProductProvider>
+        </AuthProvider>
       );
       const product1 = screen.getByTestId("product-p1");
       const product2 = screen.getByTestId("product-p2");
@@ -148,11 +151,15 @@ describe("basic > ", () => {
 
     test("관리자 페이지 테스트 > ", async () => {
       render(
-        <ProductProvider products={mockProducts}>
-          <CouponProvider coupons={mockCoupons}>
-            <AdminPage />
-          </CouponProvider>
-        </ProductProvider>
+        <AuthProvider>
+          <ProductProvider products={mockProducts}>
+            <CouponProvider coupons={mockCoupons}>
+              <CartProvider>
+                <AdminPage />
+              </CartProvider>
+            </CouponProvider>
+          </ProductProvider>
+        </AuthProvider>
       );
 
       const $product1 = screen.getByTestId("product-1");
@@ -372,7 +379,7 @@ describe("basic > ", () => {
       ];
 
       test("쿠폰 없이 총액을 올바르게 계산해야 합니다.", () => {
-        const result = cartUtils.calculateCartTotal(cart, null);
+        const result = cartUtils.calculateCartTotal(cart, null, null);
         expect(result.totalBeforeDiscount).toBe(400);
         expect(result.totalAfterDiscount).toBe(380);
         expect(result.totalDiscount).toBe(20);
@@ -385,7 +392,7 @@ describe("basic > ", () => {
           discountType: "amount",
           discountValue: 50,
         };
-        const result = cartUtils.calculateCartTotal(cart, coupon);
+        const result = cartUtils.calculateCartTotal(cart, coupon, null);
         expect(result.totalAfterDiscount).toBe(330);
         expect(result.totalDiscount).toBe(70);
       });
@@ -397,7 +404,7 @@ describe("basic > ", () => {
           discountType: "percentage",
           discountValue: 10,
         };
-        const result = cartUtils.calculateCartTotal(cart, coupon);
+        const result = cartUtils.calculateCartTotal(cart, coupon, null);
         expect(result.totalAfterDiscount).toBe(342);
         expect(result.totalDiscount).toBe(58);
       });

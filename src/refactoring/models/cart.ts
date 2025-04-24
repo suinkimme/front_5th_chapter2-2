@@ -1,4 +1,4 @@
-import { CartItem, Coupon, Product } from "../../types";
+import { CartItem, Coupon, Product, Grade } from "../../types";
 
 /**
  * Product
@@ -72,19 +72,21 @@ export const calculateCartItemTotal = (item: CartItem) => {
 
 export const calculateCartTotal = (
   cart: CartItem[],
-  selectedCoupon: Coupon | null
+  selectedCoupon: Coupon | null,
+  selectedGrade: Grade | null
 ) => {
   const { totalBeforeDiscount, totalAfterDiscount } =
     calculateTotalWithDiscount(cart);
-  const { totalAfterCouponDiscount, totalDiscount } = caclulateTotalDiscount(
+  const { totalAfterGradeDiscount, totalDiscount } = caclulateTotalDiscount(
     totalBeforeDiscount,
     totalAfterDiscount,
-    selectedCoupon
+    selectedCoupon,
+    selectedGrade
   );
 
   return {
     totalBeforeDiscount: Math.round(totalBeforeDiscount),
-    totalAfterDiscount: Math.round(totalAfterCouponDiscount),
+    totalAfterDiscount: Math.round(totalAfterGradeDiscount),
     totalDiscount: Math.round(totalDiscount),
   };
 };
@@ -138,7 +140,8 @@ export const calculateTotalWithDiscount = (cart: CartItem[]) => {
 export const caclulateTotalDiscount = (
   totalBeforeDiscount: number,
   totalAfterDiscount: number,
-  selectedCoupon: Coupon | null
+  selectedCoupon: Coupon | null,
+  selectedGrade: Grade | null
 ) => {
   const totalAfterCouponDiscount = selectedCoupon
     ? selectedCoupon.discountType === "amount"
@@ -146,10 +149,14 @@ export const caclulateTotalDiscount = (
       : totalAfterDiscount * (1 - selectedCoupon.discountValue / 100)
     : totalAfterDiscount;
 
-  const totalDiscount = totalBeforeDiscount - totalAfterCouponDiscount;
+  const totalAfterGradeDiscount = selectedGrade
+    ? totalAfterCouponDiscount * (1 - selectedGrade.discountRate / 100)
+    : totalAfterCouponDiscount;
+
+  const totalDiscount = totalBeforeDiscount - totalAfterGradeDiscount;
 
   return {
-    totalAfterCouponDiscount,
+    totalAfterGradeDiscount,
     totalDiscount,
   };
 };

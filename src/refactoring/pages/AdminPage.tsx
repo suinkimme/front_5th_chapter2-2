@@ -1,4 +1,9 @@
-import { PageTitle, ProductMenagement, CouponMenagement } from "../components";
+import {
+  PageTitle,
+  ProductMenagement,
+  CouponMenagement,
+  GradeMenagement,
+} from "../components";
 
 export const AdminPage = () => {
   return (
@@ -7,6 +12,7 @@ export const AdminPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ProductMenagement />
         <CouponMenagement />
+        <GradeMenagement />
       </div>
     </div>
   );
